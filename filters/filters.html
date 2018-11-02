@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id='app'>
+        <input type='text' v-model='price'>
+        <h1>{{ price | currency }}</h1>
+    </div>
+</body>
+<script src='./base/vue.js'></script>
+
+<script>
+    // 作业： 来一个全局过滤器 currency  
+      //  126.7 -> ￥126.70
+      //  12345.678 -> ￥12,345.68  
+      //  参数： {{ price | currency('￥'|false) }}
+
+    Vue.filter('currency',( val, param ) => {
+        let str = val.split('.')[0]
+        let num = str / 3
+        for( let i=1; i<num; i++ ){
+            let newstr = str.substring( 0 , (str.length - 3*i)) + ',' + str.slice( - ( 3*i ))
+        }
+        return newstr
+    })
+
+    new Vue({
+        el:'#app',
+        data: {
+            price: ''
+        }
+    })
+
+    
+</script>
+</html>
