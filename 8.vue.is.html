@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css">
+</head>
+<body>
+    <div id="app">
+        <button @click ='component = "app-a"'></button>
+        <button @click ='component = "app-b"'></button>
+       <hr>
+        <!-- <app-a v-if = "component === 'app-a'"></app-a>
+        <app-b v-else></app-b> -->
+       <div :is ='component'></div>
+
+     
+    </div>
+        
+</body>
+<script src="./base/vue.js"></script>
+
+<script>
+
+    //is 能指定这里到底是什么
+    Vue.component('app-a', {
+        template: '<h1>Hello A</h1>'
+    })
+
+    Vue.component('app-b', {
+        template: '<h1>Hello B</h1>'
+    })
+    
+    
+    new Vue({
+        el:"#app",
+        data:{
+          component: 'app-a'
+        }
+    })
+
+</script>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+
+</style>
+<body>
+    <div id="app">
+
+        <!-- <h2>Number乘以67，再加上138，再减去64，再平方....为: {{ computeNumber() }}</h2>
+        <p>Number乘以67，再加上138，再减去64，再平方....为:{{  computeNumber() }}</p>
+        <h3>Number乘以67，再加上138，再减去64，再平方....为:{{  computeNumber() }}</h3> -->
+            <input v-model='num'>
+        <h2>Number乘以67，再加上138，再减去64，再平方....为: {{ num_result }}</h2>
+        <p>Number乘以67，再加上138，再减去64，再平方....为:{{  num_result }}</p>
+        <h3>Number乘以67，再加上138，再减去64，再平方....为:{{  num_result }}</h3>
+
+        <hr>
+            <input v-model='person.name'>
+            <input v-model='person.age'>
+            {{person.name}} {{person.age}}
+        <hr>
+        <input v-model='password'>
+        {{message}}
+
+    </div>
+
+    <script src="./base/vue.js"></script>
+    <script>
+        //watch可以监听数据的变化
+
+        new Vue({
+            el:'#app',
+            data: {
+                num: 22,
+                num_result: 0,
+                person: {
+                   name: '二狗子',
+                   age: 18
+               },
+               message: '' ,
+               password: '',
+               
+            },
+            watch: {
+                password(){
+                    if(this.password.length < 6){
+                        this.message = '请输入长于6位的密码'
+                    } else if(this.password.length > 16){
+                        this.message = '密码长度不能比16位长'
+                    } else {
+                        this.message = ''
+                    }
+                },
+                num: {
+                    handler ( val, oldval ){
+                        console.log( val, oldval )
+                        this.num_result = Math.pow(this.num * 67 + 138 - 64, 2)
+                    },
+                    immediate: true //立即触发一次
+                },
+                person: {
+                    handler ( val, oldval ) {
+                        console.log( val, oldval)
+                    },
+                    deep: true //为了观察对象内部值得变化，当值改变的时候这个对象并没有改变，所以需要加deep
+                }
+            }
+        })
+
+        // 当我们需要再视图上显示大量运算之后的结果的时候，为了方便更新和维护
+        // 1. 可以封装methods方法，视图上显示方法的返回值, 缺点: 计算次数多，而且会受到无关数据的影响
+
+        // 2. 可以利用watch监听的方式来完成，需要在data中定义新数据，增加了使用成本，其实watch专业的在监听数据变化后去干什么什么事儿
+        //    当数据变化后，做一些特殊的事情
+
+        // 目前我们想要实现的时候，当num数据变化后，能有一条新的数据来使用
+
+      
+    </script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+
+</style>
+<body>
+  <div id="app">
+    <button @click = "cry">cry</button>
+    <button @click = "laugh">laugh</button>
+  </div>
+
+  <hr>
+  <div id="app1">
+    <button @click = "cry">cry</button>
+    <button @click = "laugh">laugh</button>
+    <button @click = "eat">eat</button>
+  </div>
+
+    <script src="./base/vue.js"></script>
+    <script>
+      
+      //在Vue中可以将一些通用的代码抽离到一个对象中，
+      //然后就可以利用mixins配置将这些抽离出去的mixin再次引入到实例里
+
+      let abc = {
+          methods: {
+            cry () {
+                alert('呜呜呜呜')
+            },
+            laugh () {
+                alert('哈哈哈哈')
+            }
+          }
+      }
+
+      new Vue({
+          el:'#app',
+          mixins: [abc]
+      })
+      new Vue({
+          el:'#app1',
+          mixins: [abc],
+          methods: {
+              cry (){
+                  alert('lalalalalala')
+              },
+              eat () {
+                  alert('asdfasdfsd')
+              }
+          }
+      })
+
+    </script>
+</body>
+</html>

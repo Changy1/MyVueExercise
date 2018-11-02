@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>      
+    <div id="app">
+        {{message}}
+       <app-o :message='message'></app-o>
+    </div>
+
+    <template id='app-one'>
+        <h1>{{ message }}</h1>
+    </template>
+</body>
+<script src="./base/vue.js"></script>
+
+<script>
+    //在vue的项目中，一般都只有一个实例也就是根实例，其他的部分都由组件来实现
+    //也就是说实例中可能会包含大量的组件，而且组件直接会项目嵌套，形成父子组件
+    //组件的嵌套只能形成父子关系, 将代表子组件的标签，放入父组件的模板中
+    
+
+    // 父组件传递数据给子组件的时候，直接在标签上传入，子组件需要利用props属性来接收
+    // 组件不能放在根实例的下面，不然无法生效，因为页面会直接加载，然后报错，他不认识 app-o
+  Vue.component('app-o',{
+      template: '#app-one',
+      props: ['message']
+  })
+
+  new Vue({
+      el: '#app',
+      data: {
+          message: '哈哈哈'
+      }
+  })
+</script>
+</html>

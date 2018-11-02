@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>      
+    <table id="app">
+        <tr is = 'app-hello'></tr>
+    </table>
+</body>
+<script src="./base/vue.js"></script>
+
+<script>
+    // 因为vue在解析模板的时候会根据某些html的规则，例如，在table里只能放tr,td,th..，如果放入组件不会解析
+    //放入tr使用is方式带标识这个tr其实是组件
+
+   Vue.component('app-hello', {
+       template: '<tr>Hello Table</tr>'
+   })
+   
+
+   var tablevm = new Vue({
+       el:'#app'
+   })
+</script>
+</html>
