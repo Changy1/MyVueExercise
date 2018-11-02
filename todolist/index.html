@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ToDoList—最简单的待办事项列表</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./index.css">
+</head>
+
+<body>
+    
+    <div class="container todo-box">
+        <h1 class="text-center"> ToDoList—最简单的待办事项列表 </h1>
+
+        <input  v-model = "new_title" @keyup.enter = "saveTodoItem" type="text" class="form-control">
+        
+        <div class="todo-content">
+            <h3>所有事项 <span class="label label-primary pull-right">{{ todos.length }}</span> </h3>
+            <ul class="list-group">
+                <li 
+                    v-for = "item in todos" :key = "item.id"
+                    class="list-group-item">
+                    <div class="row">
+                        <input v-model="item.isFinished"  class="col-xs-1" type="checkbox">
+                        <div class="title col-xs-8">
+                            <input @blur = "item.isChanging = false" v-if = "item.isChanging" type="text" v-model = "item.title">
+                            <span v-else @click="item.isChanging = !item.isChanging">{{item.title}}</span>
+                        </div>
+                        <button @click = "removeTodoItem(item.id)"  type="button" class="close col-xs-1" ><span >&times;</span></button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!-- <div class="todo-content">
+            <h3>已完成 <span class="label label-primary pull-right">0</span> </h3>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <div class="row">
+                        <input  class="col-xs-1" type="checkbox">
+                        <div class="title col-xs-8">
+                            <input type="text">
+                            <span>哈哈哈</span>
+                        </div>
+                        <button  type="button" class="close col-xs-1" ><span >&times;</span></button>
+                    </div>
+                </li>
+            </ul>
+        </div> -->
+
+    </div>
+
+    <script src="../base/vue.js"></script>
+    <script>
+        // 数据驱动
+
+        // 1. 定义关键数据
+        // 2. 建立数据和视图的联系
+        // 3. 操作数据
+        let vm = new Vue({
+            el: '.todo-box',
+            data: {
+                todoid: 1,
+                todos: [
+                    { id: 1, title: '今天是个好日子', isFinished: false, isChanging: false }
+                ],
+                new_title: ''
+            },
+            methods: {
+                saveTodoItem () { // 保存新的todo
+                    this.todos.push({
+                        id: ++this.todoid ,
+                        title: this.new_title,
+                        isFinished: false,
+                        isChanging: false
+                    })
+                   
+                    this.new_title = ''
+                },
+                removeTodoItem (id) {
+                    this.todos = this.todos.filter(item => item.id !== id)
+                }
+            }
+        })
+
+        console.log(vm)
+       
+    </script>
+</body>
+</html>

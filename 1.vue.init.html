@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id='xiaopangzi'>
+        <p style='font-size: 40px; font-weight: bold;'> {{ chenzhao }} </p>
+
+        <input v-model = 'chenzhao'> 
+
+        <ul>
+            <li v-for = 'item in label' :key='keys'>{{ item }}</li>
+            <li v-for = 'num in 9' style='font-size: 40px; font-weight: bold;'> 陈昭{{ num }}. 小胖子 </li>
+        </ul>
+    </div>
+
+    <div id='xiaopangzi2'>
+        <table>
+            <tr v-for ='(student, index) in students '>
+                <td>{{ index + 1}}</td>
+                <td style='font-size: 40px; font-weight: bold;' v-for='(value, key) in student'>{{ key }} : {{value}}</td>
+            </tr>
+        </table>
+    </div>
+    <div id='xiaopangzi3'>
+        <ul>
+            <li v-for='(num, i) in nums' :key='i'>{{ num }}</li>
+        </ul>
+    </div>
+
+
+    <div id='xiaopangzi4'>
+        <ul @click.self ='clickul'>     //只有点击他自己的时候才会触发
+            <li @click ='clickli'>asdfasdfasdfsdafsdfasdf</li>
+        </ul>
+        <input @keyup.enter = 'clickinput'>
+    </div>
+</body>
+<script src='./base/vue.js'></script>
+
+<script>
+    //小胖子1 
+    let vue = new Vue({
+        el: '#xiaopangzi',
+        data: {
+            chenzhao: 'xiaopangzi',
+            label: [ 'chenzhao', 'xiaopangzi', 'shabi']
+        },
+        methods: {
+        
+        }
+    })
+
+    //小胖子2
+    let vue2 = new Vue({
+        el: '#xiaopangzi2',
+        data: {
+            students: [
+                { id:1 , name: '小胖子1', age: 20},
+                { id:2 , name: '小胖子2', age: 20},
+                { id:3 , name: '小胖子3', age: 20}
+            ]
+        }
+    })
+
+    //小胖子3
+    let vue3 = new Vue({
+        el: '#xiaopangzi3',
+        data: {
+            nums: [ 1, 2, 2, 3, 3, 5, 4, 7]
+        }
+    })
+
+    //小胖子4
+    let vue4 = new Vue({
+        el: '#xiaopangzi4',
+        data: {
+            num: 0
+        },
+        methods: {
+            clickli () {
+                alert('li')
+            },
+            clickul () {
+                alert('ul')
+            },
+            clickinput() {
+                console.log('ok')
+            }
+        }
+    })
+
+    
+</script>
+</html>

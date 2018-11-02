@@ -1,0 +1,8 @@
+
+.todo-box {
+    width: 600px;
+}
+.list-group-item .title span{
+    /* text-indent: 2em; */
+    cursor: pointer;
+}

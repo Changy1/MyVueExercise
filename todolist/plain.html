@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ToDoList—最简单的待办事项列表</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./index.css">
+</head>
+
+<body>
+    
+    <div class="container todo-box">
+
+        <h1 class="text-center"> ToDoList—最简单的待办事项列表 </h1>
+
+        <input v-model='newInput' @keyup.enter='inputenter' type="text" class="form-control">
+        
+        <div class="todo-content">
+            <h3>正在进行 <span class="label label-primary pull-right">{{ list.length }}</span> </h3>
+            <ul class="list-group">
+                <li v-for='item in list' class="list-group-item">
+                    <div class="row">
+                        <input @click='isfinshed(item.id)' v-model='item.isFinshed' class="col-xs-1" type="checkbox">
+                        <div class="title col-xs-8">
+                            <input @blur='item.isChecked = false'  autofocus v-if='item.isChecked' type="text" v-model='item.text'>
+                            <span v-else @click='item.isChecked=!item.isChecked'>{{ item.text }}</span>
+                        </div>
+                        <button @click='closethis(item.id)' type="button" class="close cl-xs-1" ><span >&times;</span></button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+       
+        <div class="todo-content">
+            <h3>已完成 <span class="label label-primary pull-right">{{ end.length }}</span> </h3>
+            <ul class="list-group">
+                <li v-for='item in end' class="list-group-item">
+                    <div class="row">
+                        <!-- 将它与isFinshed绑定，上边点击了以后传送的isFinshed就自动变为对号了 -->
+                        <input @click='isunfinshed(item.id)' v-model='item.isFinshed'  class="col-xs-1" type="checkbox">
+                        <div class="title col-xs-8">
+                            <span>{{ item.text }}</span>
+                        </div>
+                        <button  @click='closethisend(item.id)' type="button" class="close col-xs-1" ><span >&times;</span></button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="../base/vue.js"></script>
+    <script>
+        //创建一个Vue实例
+        var vm = new Vue({
+            //vue的作用范围，写一个选择器
+            el: '.todo-box',
+            //存放数据
+            data: {
+                listid: 0,
+                list: [
+                    
+                ],
+                end: [
+                ],
+                newInput: ''
+            },
+            //存放
+            methods: {
+                inputenter () {
+                    this.list.push({
+                        id: ++this.listid,
+                        text: this.newInput,
+                        isFinshed: false,
+                        isChecked: false
+                    })
+                    this.newInput = ''
+                },
+                closethis(id) {
+                    this.list = this.list.filter( item => item.id !== id)
+                },
+                closethisend(id) {
+                    this.end = this.end.filter( item => item.id !== id)
+                },
+                isfinshed(id) {
+                    let one = this.list.filter( item => item.id === id)[0]
+                    this.end.push(one)
+                    this.list = this.list.filter( item => item.id !== id)
+                },
+                isunfinshed(id) {
+                    let one = this.end.filter( item => item.id === id)[0]
+                    this.list.push(one)
+                    this.end = this.end.filter( item => item.id !== id)
+                }
+            }
+        })
+       
+    </script>
+</body>
+</html>
