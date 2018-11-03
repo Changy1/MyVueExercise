@@ -10,7 +10,7 @@
         <h1>{{ price | currency }}</h1>
     </div>
 </body>
-<script src='./base/vue.js'></script>
+<script src='../base/vue.js'></script>
 
 <script>
     // 作业： 来一个全局过滤器 currency  
@@ -19,12 +19,23 @@
       //  参数： {{ price | currency('￥'|false) }}
 
     Vue.filter('currency',( val, param ) => {
-        let str = val.split('.')[0]
-        let num = str / 3
-        for( let i=1; i<num; i++ ){
-            let newstr = str.substring( 0 , (str.length - 3*i)) + ',' + str.slice( - ( 3*i ))
+        if( val === '' ) return ''
+        let newval = parseFloat(val).toFixed(2)     //保留两位小数，如果没有小数会自动变为.00
+        let thenval = newval.split('.')             //用.将传入的数分割成数组
+        let str = thenval[0]                        //str是前半部分需要操作的
+        let otherstr = thenval[1]                   //这是小数点后面那两位
+        let arr = []                                
+        let count = 0                               //计数器
+        for( let i=str.length-1 ; i>=0 ; i-- ){     //将字符串从最后一位开始遍历，每隔三位添加一个逗号
+            count++                                 //第几次count就是几
+            arr.push(str[i])
+            if( count%3 === 0 && count !== 0 && count !== str.length ) arr.push(',')
         }
-        return newstr
+        let newstr = arr.reverse().join('')         //翻转数组，并转化字符串
+        let laststr = newstr + '.' + (otherstr ? otherstr : '') //拼接数组
+        if( param == false ) return laststr         //参数操作
+        param = param || '￥'
+        return  '' + param + laststr
     })
 
     new Vue({

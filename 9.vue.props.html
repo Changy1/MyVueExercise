@@ -9,11 +9,13 @@
 <body>      
     <div id="app">
         {{message}}
+        <input v-model='message'>
        <app-o :message='message'></app-o>
     </div>
 
     <template id='app-one'>
         <h1>{{ message }}</h1>
+        <input v-model='message'>
     </template>
 </body>
 <script src="./base/vue.js"></script>
@@ -28,7 +30,12 @@
     // 组件不能放在根实例的下面，不然无法生效，因为页面会直接加载，然后报错，他不认识 app-o
   Vue.component('app-o',{
       template: '#app-one',
-      props: ['message']
+      props: ['message'],
+      data(){
+          return{
+            message: this.message
+          }
+      }
   })
 
   new Vue({
