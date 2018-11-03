@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<style>
+    .red {
+        border:1px solid red;
+    }
+    .blue {
+        border:1px solid blue;
+    }
+</style>
+<body>
+
+    <div id="app">
+        <app-input data-id="2" class="blue" v-model = "message"></app-input>
+        <h1>{{message}}</h1>
+
+    </div>
+
+    <template id='app-input'>
+        <div>
+            <!-- 上边的message值将会自动传入这个名为value的属性，同时当触发input事件的时候message也会被更新 -->
+            <!-- 这里是给value属性绑定一个value值，这个值来自message，当触发input的时候会传入触发元素（event.target）的value -->
+            <!-- 然后去改变message -->
+           <input @input='$emit("input",$event.target.value)' :value='value' type='text'>
+        </div>
+    </template>
+    
+    <script src="./base/vue.js"></script>
+    <script>
+
+
+        Vue.component('app-input',{
+            template: '#app-input',
+            props: ['value']
+        })
+
+        new Vue({
+            el:'#app',
+            data: {
+                message: 'Hello World',
+                doc: { title: 'hahaha' }
+            }
+        })
+    </script>
+
+</body>
+</html>

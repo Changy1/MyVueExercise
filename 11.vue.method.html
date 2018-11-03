@@ -23,7 +23,10 @@
         <div>
             <p>我是妈妈我会管钱 {{ current }}</p>
             <hr>
-            <app-father :give-money='getMoney'></app-father>
+            <!-- 这样是把父组件的方法当做数据传给子组件，然后子组件调用 -->
+            <!-- <app-father :give-money='getMoney'></app-father> -->
+            <!-- 这样是直接给子组件绑定一个事件名字叫give-money,子组件可以调用emit去触发 -->
+            <app-father @give-money='getMoney'></app-father>
             <hr>
             <app-son :money = 'sonMoney'></app-son>
         </div>
@@ -59,7 +62,8 @@
         },
         methods: {
             submit () {
-                this.giveMoney( this.money )
+               /*  this.giveMoney( this.money ) */
+                this.$emit('give-money', this.money)
                 this.money = 0
             },
             getMoney () {

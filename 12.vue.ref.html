@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn">btn</button>
+    <div id="app">
+        <app-father></app-father>
+
+    </div>
+
+    
+    <template id="father">
+        <div>
+            <p>我是爸爸</p>
+            <p><button @click="get">get</button></p>
+
+            <app-son ref = "kids" v-for = "x in 10" :key = "x"></app-son>
+            <!-- <app-son ref = "one"></app-son>
+            <app-son ref = "two"></app-son>
+            <app-son ref = "three"></app-son> -->
+        </div>
+    </template>
+
+    <template id="son">
+        <div>  
+            <input type="text" v-model ='message'>
+        </div>
+    </template>
+</body>
+<script src="./base/vue.js"></script>
+
+<script>
+    
+    // 组件可以利用ref为自己的dom做出独有的标记，利用this.$refs来获得从而进行操作
+
+    // 父组件可以给自己的子组件做出标记
+    
+    
+    Vue.component('app-father', {
+        template: '#father',
+        methods: {
+            get () {
+                console.log(this)
+                // console.log(this.$refs.one.message)
+                // console.log(this.$refs.two.message)
+                // console.log(this.$refs.three.message)
+
+                this.$refs.kids.forEach(kid => {
+                    console.log(kid.message)
+                });
+            }
+        }
+        
+    })
+    Vue.component('app-son', {
+        template: '#son',
+        data () {
+            return {
+                message: 'Hello World'
+            }
+        }
+    })
+
+    
+
+    new Vue({
+        el:"#app",
+        data: {
+            message: 'Hello WORLD'
+        }
+    })
+    
+
+    
+    
+
+
+</script>
+</html>

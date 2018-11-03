@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+
+     <app-block :title = "title" >
+        <img src="https://static.maizuo.com/pc/v1/static/asset/6b02e2bb1ad24bf3ddfe61117f7623d9.jpg" alt="">
+        <p>哈哈哈哈哈哈</p>
+     </app-block>
+
+
+
+    </div>
+
+    <template id="app-block">
+        <div>  
+            <header>
+                <h1> {{ title }} </h1>
+            </header> 
+            <hr>
+0
+            <div class="content" style="padding: 20px;">
+                <slot></slot>
+            </div>    
+        </div>
+    </template>
+
+
+
+
+
+
+
+</body>
+<script src="./base/vue.js"></script>
+
+<script>
+    // 当我们在封装一些UI组件等公共组件的时候，组件内的某些部分需要组件的使用者决定，可以在组件中留有slot插槽，使用者在使用组件时标签内写的内容都会放入到组件中插槽的位置， 增加自定义组件的灵活性
+
+    
+    
+    Vue.component('app-block', {
+        template: '#app-block',
+        props: {
+            title: {
+                default: 'Title',
+                type: String
+            }
+        }
+    })
+
+
+    new Vue({
+        el:"#app",
+        data: {
+            title: 'Hello World'
+        }
+    })
+
+
+    
+    
+
+
+
+</script>
+</html>
