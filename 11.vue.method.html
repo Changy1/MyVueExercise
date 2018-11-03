@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <app-mother></app-mother>
+    </div>
+
+    <template id='father'>
+        <div>
+            <p>我是爸爸我会挣钱  -- {{ money }}</p>
+            <button @click ='submit'>上交</button>
+            <button @click ='getMoney'>赚钱</button>
+        </div>
+    </template>
+
+    <template id='mother'>
+        <div>
+            <p>我是妈妈我会管钱 {{ current }}</p>
+            <hr>
+            <app-father :give-money='getMoney'></app-father>
+            <hr>
+            <app-son :money = 'sonMoney'></app-son>
+        </div>
+    </template>
+    
+    <template id ='son'>    
+        <div>
+            <p>我是儿子 我会花钱 -- {{money}}</p>
+        </div>
+    </template>
+</body>
+<script src="./base/vue.js"></script>
+
+<script>
+    //有的时候，需要让子组件去更改一下父组件的数据，但是因为数据是属于父组件自己的，所以应该由父组件去定义一个更改数据的方法，然后将方法传递给子组件，子组件在适当的情况下调用
+    Vue.component('app-father', {
+        template:'#father',
+        props: ['giveMoney'],
+        data () {
+            return {
+                money: 100
+            }
+        },
+        watch: {
+            money:{
+                immediate: true,
+                handler (val) {
+                    if( val >= 100){
+                        this.submit()
+                    }
+                }
+            }
+        },
+        methods: {
+            submit () {
+                this.giveMoney( this.money )
+                this.money = 0
+            },
+            getMoney () {
+                this.money += 10
+            }
+        }
+        
+    })
+
+    Vue.component('app-mother', {
+        template:'#mother',
+        data () {
+            return {
+                money: 0,
+                sonMoney: 2
+            }
+        },
+        computed: {
+            current () {
+                return this.money - this.sonMoney
+            }
+        },
+        methods: {
+            getMoney (money) {
+                this.money += money
+            } 
+        }
+    })
+
+    Vue.component('app-son', {
+        template:'#son',
+        props: ['money']
+    })
+
+
+
+    new Vue({
+        el: '#app'
+    })
+    
+    
+
+
+</script>
+</html>

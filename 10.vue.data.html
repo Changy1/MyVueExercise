@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <app-a></app-a>
+    </div>
+
+    <template id='aaa'>
+        <div>
+            <input type="text" v-model="want">
+            <app-b :want='want'></app-b>
+        </div>
+    </template>
+
+    <template id='bbb'>
+        <div>
+            <h1>已买{{ current }},再买{{ want }},共{{ want+ current }}</h1>
+        </div>
+    </template>
+</body>
+<script src="./base/vue.js"></script>
+
+<script>
+    Vue.component('app-a',{
+        template: '#aaa',   
+        //这种写法省略retrun，但是箭头函数{需要用()包住
+        data: () => ({want: 6}) 
+    })
+
+    Vue.component('app-b',{
+        template: '#bbb',
+        props:{
+            //props的值可以是对象，在里面可以对父组件传过来的数据做出验证，如果验证失败，会抛出警告
+            //如果某一条属性没有被props接收，会出现在组件模块的根元素上
+            //如果子组件没有通过props来接收父组件传递的某个数据，该属性就会出现在子组件模板的最外层节点上面
+            want: {
+                default: 0,
+                type: Number
+            }
+        },
+        data: () => ({
+            current: 10
+        })
+    })
+ 
+
+    new Vue({
+        el:"#app"
+    })
+    
+</script>
+</html>
