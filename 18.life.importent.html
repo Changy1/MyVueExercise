@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+   
+</head>
+<body>
+    <div id="app">
+      <my-component></my-component>
+    </div>
+
+    <template id="component">
+        <div>
+            <h1 id="title">{{message}}</h1>
+            <h3>Number: {{num}}</h3>
+           
+        </div>
+    </template>
+
+
+<script src="./base/vue.js"></script>
+
+<script>
+    //每一个Vue实例(包括根实例和组件实例)从创建初始到销毁的过程中，经常需要在某些时刻去执行一些逻辑代码
+    
+    //Vue在每个组件的生命周期过程(从创建到销毁)中暴露出很多钩子函数，这些钩子函数会在特定的时刻执行
+    
+    //组件或者实例生命周期会经历三个阶段： 初始化/运行中/销毁
+
+    // 1. 当组件或者Vue被实例化以后，代表组件或者Vue的生命周期就开始了 (new Vue)
+
+    // 2. 初始化事件监听和生命周期 (init Events & Lifecycle)
+
+    Vue.component('my-component', {
+        template: '#component',
+        data() { return {message: 'Hello World', num: 1 } },
+        beforeCreate () {
+    // 3. 执行 (beforeCreate) , 这时候数据还没有被挂载，dom也没有被渲染，基本没有什么用处
+            console.log('beforeCreate', this.message, document.querySelector('#title'))
+        },
+
+    // 4. 挂载数据，绑定数据监听等.. (init injections & reactivity)
+        
+        created () {
+    // 5. 执行 (created)，dom没有渲染，可以操作数据了，并且不会触发运行中阶段的钩子函数，经常会在这里做数据的初始挂载
+            console.log('created', this.message, document.querySelector('#title'))
+            this.message += '!'
+        },
+
+    // 6. 查找组件或者实例的模板，进行编译，编译成虚拟dom结构放入到render函数中
+            //  先查询'el'/'template'(这两个可以同时存在),如果没有再去查询是否调用了$mount(el)函数
+
+        beforeMount () {
+    // 7. 执行 (beforeMount)，可以访问数据，操作数据，dom还没有渲染，作用和created一样，做初始数据的获取与挂载
+            console.log('beforeMount', this.message, document.querySelector('#title'))
+            this.message += '!'          
+        },
+    
+    // 8. 创建 $el ，并且执行了render函数
+
+            //      render () { 
+            //          //这里如果写console就把之前的render覆盖掉了，所以页面不显示东西
+            //        console.log('render')
+            //      }
+
+        mounted () {
+    // 9. 执行 (mounted) dom重新渲染完成，标着 初始化阶段完成
+            console.log('mounted', this.message, document.querySelector('#title'))
+            this.message += '!' // 会触发update函数执行
+        },
+
+    // 10. 进入运行中阶段，当数据更改的时候
+        
+        beforeUpdate () {
+            // 11. 执行(beforeUpdate)，数据已经更新了，dom还没有重新渲染，没有什么用，不能操作数据(会死循环)
+        },
+
+    // 12. setter => watcher => 创建新的虚拟dom => diff对比 => re-render
+            //Virtual DOM re-render and patch
+
+        updated () {
+    // 13. 执行(updated), dom重新渲染完成，可以操作重新渲染之后的dom
+        },
+
+    // 14. 当组件被销毁的时候，销毁组件只有一个途径：调用组件的$destroy方法，切换组件其实也是在销毁组件
+            //when vm.$destroy() is called
+
+        beforeDestroy () {
+    // 15. 执行(beforeDestroy), 此时还没有销毁， 可以用来取消一些事件监听，解绑某些dom的事件
+        },
+    
+    // 16. 取消所有的监听和子组件！ 数据监听/事件监听..
+            //Teardown watchers,child components and event listeners
+        destroyed () {
+    // 17. 执行(destroyed) 作用和beforeDestroy一样
+        }
+
+    })
+
+
+    //这是创建Vue实例的另一种方法
+    new Vue().$mount('#app')     
+</script>
+</html>

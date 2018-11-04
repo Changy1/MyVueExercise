@@ -15,9 +15,14 @@
         <p slot ='h2'>哈哈哈哈哈哈</p>
      </app-block>
 
-
+     <app-todolist>
+       <!--  <h1 slot-scope="abc">{{abc.x}}</h1>  --><!-- 这里传递过来会变成一个对象 { x } 使用的时候就需要写abc.x -->
+                                            <!-- 就像是例子里的slotProps.todo.text  -->
+        <h1 slot-scope="{x}">{{x}}</h1>
+    </app-todolist>
    <!--  在组件内部的元素一般会被忽略，但可以在组件内部写一个slot插槽，app-block内的就会自动添加进插槽位置
     也可以指定插槽名称，给slot一个name，然后给需要插入的元素一个slot=‘’属性，可以指定插入位置 -->
+    <async-component></async-component>
     </div>
 
     <template id="app-block">
@@ -32,6 +37,16 @@
             <div class="content" style="padding: 20px;">
                 <slot></slot>
             </div>    
+        </div>
+    </template>
+
+    <template id="app-todolist">
+        <div>  
+            <ul>
+                <li v-for = "x in 10" :key = "x">
+                    <slot :x = "x"></slot>
+                </li>
+            </ul>
         </div>
     </template>
 
@@ -58,7 +73,23 @@
             }
         }
     })
+    Vue.component('app-todolist', {
+        template: '#app-todolist'
+    })
 
+    Vue.component('async-component', (resolve) => {
+            setTimeout(() => {
+                if (Math.random() > 0.5) {
+                    resolve({
+                        template: '<h1>>0.5</h1>'
+                    })
+                }  else {
+                    resolve({
+                        template: '<h1><0.5</h1>'
+                    })
+                }
+            }, 1000);
+        })
 
     new Vue({
         el:"#app",
