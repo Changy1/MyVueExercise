@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css">
+</head>
+<body>
+    <div id="app">
+        <big-brother ></big-brother>
+        <hr>
+        <littel-brother ></littel-brother>
+    </div>
+
+
+    <template id="big-brother">
+        <div>
+            <p>我是哥哥</p>
+            <button @click = "hit">打弟弟</button>
+        </div>
+    </template>
+
+
+    <template id="littel-brother">
+        <div>
+            <p>我是弟弟</p>
+            <p v-if = "cry">呜呜呜呜呜呜呜</p>
+        </div>
+    </template>
+
+</body>
+<script src="./base/vue.js"></script>
+
+<script>
+
+    var bus = new Vue()
+    
+    // 事件总线
+   
+    Vue.component('big-brother', {
+        template: '#big-brother',
+        methods:{
+            hit () {
+                bus.$emit('little-cry')
+            }
+        }
+    
+    })
+    Vue.component('littel-brother', {
+        template: '#littel-brother',
+        data(){
+            return {
+                cry: false
+            }
+        },
+        methods: {
+            toCry () { this.cry = true}
+        },
+        mounted () {
+            bus.$on('little-cry', () => {
+                this.toCry()
+            })
+        }
+     
+    })
+    new Vue({
+        el:"#app"
+    })
+
+
+</script>
+</html>
